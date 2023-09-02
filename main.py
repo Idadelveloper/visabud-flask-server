@@ -23,11 +23,13 @@ from langchain.schema import (
 )
 
 from flask import Flask, request,jsonify
+from flask_cors import CORS, cross_origin
 import json
 import requests
 
 
 app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
