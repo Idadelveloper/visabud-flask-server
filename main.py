@@ -50,6 +50,11 @@ def suggest_visa(content):
         return [False, visa_explain]
 
 
+# p1 = "My country of origin is USA. My country of destination is Canada. My reason of travel is to visit a friend. "
+# p2 = "My country of origin is Cameroon. My country of destination is Canada. My reason of travel is to visit a friend. "
+# print(suggest_visa(p1))
+# print(suggest_visa(p2))
+
 @app.route("/init", methods=["POST"])
 def init():
     data = request.json
@@ -111,7 +116,8 @@ def questions():
     )
     questions = get_content(response)
     questions = ast.literal_eval(questions)
-    response = {"answer": questions}
+    first_text = "You have provided some information. I'll ask a few questions to help you. Type anything to get started."
+    response = {"first": first_text, "answer": questions}
     return jsonify(response)
 
 @app.route("/suggestions", methods=["POST"])
