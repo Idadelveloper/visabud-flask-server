@@ -10,26 +10,7 @@ Handles requests to openAPI's chatGPT model about visa enquiries
 
 
 ### API Usage
-There is one endpoint - `/enquire`
-There are 2 parameters to include in the request body:
-- `question`: Current question you intend asking
-- `history`: A list of of strings of the previous questions and answers
-
-#### Sample json request body (with no history)
-```json
-{
-    "question": "I want to apply for a tourist visa to visit London for 3 months. How much will the visa application cost? Also what can I do to obtain a visa?",
-    "history": []
-}
-```
-
-#### Sample json request body (with history)
-```json
-{
-    "question": "Please provide me with steps and some tips to submit a successful application",
-    "history": [
-        "user:I want to apply for a tourist visa to visit London for 3 months. How much will the visa application cost? Also what can I do to obtain a visa?",
-        "ai:The cost to apply for a Standard Visitor visa to the UK, which includes London, is £100 for up to 6 months. The steps to obtain it are as follows:\n\n1. Apply online before you travel to the UK.\n2. Attend an appointment at a visa application centre.\n3. You must meet the eligibility requirements and only do permitted activities.\n4. Depending on your nationality, you may not need a visa to visit the UK. You can check if you need a visa before you apply.\n\nPlease note that the earliest you can apply is 3 months before you travel."
-    ]
-}
-```
+There is multiple endpoints, all of which call OpenAI's GPT-3.5-Turbo model:
+- `/questions`: Generates questions based on the user's country of origin and destination. These question are asked to the user one at a time in the chat interface
+- `/suggestions`: Identifies weakpoints in the user's profile and suggests supporting document that can be used to strengthen their application
+- `/cover`: Generates a custom visa cover letter based on the user's personal information. 
