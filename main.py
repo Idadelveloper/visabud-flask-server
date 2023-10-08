@@ -34,7 +34,10 @@ def suggest_visa(content):
     )
     need_visa = get_content(response)
 
-    visa_explain_question = content + " If I need a visa, tell me the visa type concisely. If I don't need a visa, explain why briefly"
+    if need_visa == "Y":
+        visa_explain_question = content + ". Tell me the name of the visa I need without any explaination"
+    else:
+        visa_explain_question = content + ". Explain why I don't need a visa"
     messages = [
             {"role": "system", "content": visa_explain_question},
         ]
@@ -44,11 +47,19 @@ def suggest_visa(content):
             temperature=0,
         )
     visa_explain = get_content(response)
-
+    # print(need_visa_question, visa_explain_question)
+    # print([True, visa_explain])
     if need_visa == "Y":
-        return [True, visa_explain]
+        return {
+            'need_visa' : True,
+            'explain': visa_explain
+        }
     else:
-        return [False, visa_explain]
+        return {
+            'need_visa' : False,
+            'explain': visa_explain
+        }
+
 
 
 # p1 = "My country of origin is USA. My country of destination is Canada. My reason of travel is to visit a friend. "
@@ -60,44 +71,9 @@ def suggest_visa(content):
 def init():
     data = request.json
     initial_context = "You are a kind helpful assistant chatbot. Your job is to assist people applying for visa to travel abroad."
-    country_destination = data.get("destination")
-    country_origin = data.get("origin")
-    country_residence = data.get("residence")
-    suggest_visa = data.get("suggest_visa")
-    initial_context += (
-        "My country of origin is "
-        + country_origin
-        + " and I am currently residing in "
-        + country_residence
-        + " and I want to travel to "
-        + country_destination
-        + "."
-    )
-
-    if suggest_visa:
-        travel_reason = data.get("travel_reason")
-        travel_duration = data.get("travel_duration")
-        context = (
-            initial_context
-            + " My reason of travelling to "
-            + country_destination
-            + " is: "
-            + travel_reason
-            + ". The duration of my trip is "
-            + travel_duration
-            + "."
-        )
-        need_visa, explanation = suggest_visa(context)
-        if need_visa:
-            # TODO redirect to chat screen
-            initial_context += "I will be applying for a " + explanation + " visa"
-        else:
-            # show explaination
-            return
-    else:
-        visa_type = data.get("visa_type")
-        initial_context += "I will be applying for a " + visa_type + " visa"
-        # TODO launch chatbot with this initial context
+    context = initial_context + data['info']
+    res = suggest_visa(context)
+    return jsonify(res)
 
 @app.route("/questions", methods=["POST"])
 def questions():
@@ -173,4 +149,4 @@ def cover():
     response = {"answer": response}
     return jsonify(response)
 
-app.run()
+app.run(debug=True)
