@@ -1,0 +1,22 @@
+pre_response = {
+        "What is the purpose of your visit to Ethiopia?" : "school",
+        "Do you have a job offer or employment contract from a company in Ethiopia?" : "no",
+        "How long do you plan to stay in Ethiopia?": "2 weeks",
+        "Have you obtained a work permit or visa sponsorship from the Ethiopian government?" : "no",
+        "What is your current occupation in the USA?": "student",
+        "How long have you been working in your current occupation?":"5 years",
+        "Are you currently employed or unemployed?":"unemployed",
+      "Do you have any previous work experience in Ethiopia?":"no", 
+      "Have you ever been employed by a company in Ethiopia before?":"no",
+      "Are you traveling alone or with family members?":"alone",
+      "Do you have any family members or relatives in Ethiopia?":"no",
+      "Do you own any property or assets in Ethiopia?":"no",
+      "What is your marital status?":"single",
+      "Do you have any children?":"no",
+      "What is your monthly income in the USA?":"100 USD",
+      "Do you have a bank statement to prove your financial stability?":"yes",
+      "How much money is available in your bank account?":"2000 USD",
+      "Have you made any travel arrangements or booked accommodation in Ethiopia?":"yes",
+      "Do you have travel insurance that covers your stay in Ethiopia?":"no",
+      "Have you ever been refused a visa for any country before?":"yes"
+}
