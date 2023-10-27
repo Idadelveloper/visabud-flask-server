@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import openai
 
 from flask_cors import CORS, cross_origin
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 
 import json
 import requests
@@ -132,7 +132,7 @@ def cover():
     length = min(len(questions), len(answers))
     for i in range(length):
         context += questions[i] + ": " + answers[i] + " \n"
-    context += "Research about the requirements and official immigrations regulations/rules (of the country I'm applying for) for the specific visa I'm applying for. Use this information and my personal background information to generate a visa cover letter for me that specifies the purpose of my visit and specifies how I satisfy the immigration rules. This letter should convince the visa offer that I am genuine and reduce the chance of a visa rejection"
+    context += "Research about the requirements and official immigrations regulations/rules (of the country I'm applying for) for the specific visa I'm applying for. Use this information and my personal background information to generate a visa cover letter for me that specifies the purpose of my visit and specifies how I satisfy the immigration rules. This letter should convince the visa offer that I am genuine and reduce the chance of a visa rejection. Make sure it is returned in HTML format"
     
     messages = [
     {
@@ -146,6 +146,15 @@ def cover():
         temperature=0,
     )
     response = get_content(response)
+
+    import base64
+    import pdf_gen
+
+    data = {"file": base64.b64encode(pdf_gen.get_pdf(response)).decode()}
+    r = requests.post("https://chpris.org:5000/pdf/generate", json=data)
+    r.raise_for_status()        
+
+    response += f"""<br><form formtarget="_blank" action="{r.text}"><input type="submit" value="Download"/></form>"""
     response = {"answer": response}
     return jsonify(response)
 
