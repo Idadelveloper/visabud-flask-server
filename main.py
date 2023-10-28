@@ -68,6 +68,7 @@ def suggest_visa(content):
 # print(suggest_visa(p2))
 
 @app.route("/init", methods=["POST"])
+@cross_origin()
 def init():
     data = request.json
     initial_context = "You are a kind helpful assistant chatbot. Your job is to assist people applying for visa to travel abroad."
@@ -76,6 +77,7 @@ def init():
     return jsonify(res)
 
 @app.route("/questions", methods=["POST"])
+@cross_origin()
 def questions():
     context = request.json.get("context")
     context += " What personal information do you need from me to be able to assist me? Provide a list of questions. If I have already provided an answer to a question (e.g purpose of my visit), do not ask again. Do not ask any identifying questions like my name, date of birth or passport number. Do not ask about criminal or medical history. Think about the requirements for the specific visa and common pitfalls that cause visas to be rejected when generating the questions. Be specific as possible; for example, instead of asking if I have enough funds, ask how much money my bank statement has, or instead of asking if I have  documents to prove my ties, ask me questions that can be used to determine my ties (e.g marital status, number of kids, property, employment status, whether I'm travelling alone or not). Research about the supporting documents and immigration regulations for this specific visa type and use as a guide for the questions, making sure to ask questions only relevant to this visa type. If a question isn't relevant, do not ask it. No questions about application formalities like application forms, feed, passport photos. Response should be a list of questions in Python array format"
@@ -98,6 +100,7 @@ def questions():
     return jsonify(response)
 
 @app.route("/suggestions", methods=["POST"])
+@cross_origin()
 def suggestions():
     data = request.json
     questions = data["questions"]
@@ -124,6 +127,7 @@ def suggestions():
     return jsonify(response)
 
 @app.route("/cover", methods=["POST"])
+@cross_origin()
 def cover():
     data = request.json
     questions = data["questions"]
